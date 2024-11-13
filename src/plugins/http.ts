@@ -42,10 +42,10 @@ axiosInstance.interceptors.response.use(
 
 // Funciones de utilidad para realizar peticiones
 const httpService = {
-  get: (url, config = null) => axiosInstance.get(url, config),
-  post: (url, data, config = null) => axiosInstance.post(url, data, config),
-  put: (url, data, config = null) => axiosInstance.put(url, data, config),
-  delete: (url, config = null) => axiosInstance.delete(url, config),
+  get: (url: string) => axiosInstance.get(url),
+  post: (url: string, data: object) => axiosInstance.post(url, data),
+  put: (url: string, data: object) => axiosInstance.put(url, data),
+  delete: (url: string) => axiosInstance.delete(url),
 };
 
 export default httpService;
