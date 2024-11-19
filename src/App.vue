@@ -1,9 +1,8 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router';
+import NavMenu from '@/components/NavMenu.vue'
+import { RouterView } from 'vue-router'
 </script>
-
 <template>
-  
+  <NavMenu></NavMenu>
   <RouterView />
 </template>
-

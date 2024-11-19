@@ -9,13 +9,14 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: MainView,
-      children:[{
-        path: '/:module',
-        name: 'table',
-        component: TableView
-      }]
-    },
-    
+      children: [
+        {
+          path: ':module',
+          name: 'table',
+          component: TableView
+        }
+      ]
+    }
   ]
 })
 
