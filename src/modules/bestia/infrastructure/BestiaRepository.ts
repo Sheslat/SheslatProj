@@ -18,7 +18,7 @@ export function createBestiaRepository(): BestiaRepository {
 
 async function getAll(): Promise<Bestia[]> {
     const  { data } = await httpService.get(ENTITY)
-    return data || null
+    return data || []
 }
 
 async function save(bestia: Bestia): Promise<void> {

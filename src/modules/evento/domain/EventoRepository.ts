@@ -5,5 +5,5 @@ export interface EventoRepository {
     remove: (id: number) => Promise<void>
     get: (id: number) => Promise<Evento | null>
     update: (id: number, evento: Evento) => Promise<Evento | null>
-    getAll: () => Promise<Evento[] | null>
+    getAll: () => Promise<Evento[] | []>
 }

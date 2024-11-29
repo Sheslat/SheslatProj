@@ -17,7 +17,7 @@ export function createCulturaRepository(): CulturaRepository {
 
 async function getAll(): Promise<Cultura[]> {
     const  { data } = await httpService.get(ENTITY)
-    return data || null
+    return data || []
 }
 
 async function save(cultura: Cultura): Promise<void> {

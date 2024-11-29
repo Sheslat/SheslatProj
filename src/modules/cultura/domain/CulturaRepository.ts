@@ -5,5 +5,5 @@ export interface CulturaRepository {
     remove: (id: number) => Promise<void>
     get: (id: number) => Promise<Cultura | null>
     update: (id: number, cultura: Cultura) => Promise<Cultura | null>
-    getAll: () => Promise<Cultura[] | null>
+    getAll: () => Promise<Cultura[] | []>
 }

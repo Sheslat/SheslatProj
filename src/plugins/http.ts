@@ -25,7 +25,7 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.response.use(
   (response) => {
     // Manejar respuestas exitosas
-    return response.data; // Retornar solo los datos
+    return response; // Retornar solo los datos
   },
   (error) => {
     // Manejar errores

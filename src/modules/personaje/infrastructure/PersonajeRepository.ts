@@ -18,7 +18,7 @@ export function createPersonajeRepository(): PersonajeRepository {
 
 async function getAll(): Promise<Personaje[]> {
     const  { data } = await httpService.get(ENTITY)
-    return data || null
+    return data || []
 }
 
 async function save(personaje: Personaje): Promise<void> {

@@ -18,7 +18,7 @@ export function createEventoRepository(): EventoRepository {
 
 async function getAll(): Promise<Evento[]> {
     const  { data } = await httpService.get(ENTITY)
-    return data || null
+    return data || []
 }
 
 async function save(evento: Evento): Promise<void> {

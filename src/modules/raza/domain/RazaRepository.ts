@@ -5,5 +5,5 @@ export interface RazaRepository {
     remove: (id: number) => Promise<void>
     get: (id: number) => Promise<Raza | null>
     update: (id: number, raza: Raza) => Promise<Raza | null>
-    getAll: () => Promise<Raza[] | null>
+    getAll: () => Promise<Raza[] | []>
 }

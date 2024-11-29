@@ -17,7 +17,7 @@ export function createPaisRepository(): PaisRepository {
 
 async function getAll(): Promise<Pais[]> {
     const  { data } = await httpService.get(ENTITY)
-    return data || null
+    return data || []
 }
 
 async function save(pais: Pais): Promise<void> {

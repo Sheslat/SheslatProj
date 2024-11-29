@@ -6,5 +6,5 @@ export interface BestiaRepository {
     remove: (id: number) => Promise<void>
     get: (id: number) => Promise<Bestia | null>
     update: (id: number, bestia: Bestia) => Promise<Bestia | null>
-    getAll: () => Promise<Bestia[] | null>
+    getAll: () => Promise<Bestia[] | []>
 }

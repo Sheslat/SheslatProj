@@ -18,7 +18,7 @@ export function createLugarRepository(): LugarRepository {
 
 async function getAll(): Promise<Lugar[]> {
     const  { data } = await httpService.get(ENTITY)
-    return data || null
+    return data || []
 }
 
 async function save(lugar: Lugar): Promise<void> {

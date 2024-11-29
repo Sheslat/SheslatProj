@@ -6,5 +6,5 @@ export interface PersonajeRepository {
     remove: (id: number) => Promise<void>
     get: (id: number) => Promise<Personaje | null>
     update: (id: number, personaje: Personaje) => Promise<Personaje | null>
-    getAll: () => Promise<Personaje[] | null>
+    getAll: () => Promise<Personaje[] | []>
 }

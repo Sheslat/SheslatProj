@@ -17,7 +17,7 @@ export function createRazaRepository(): RazaRepository {
 
 async function getAll(): Promise<Raza[]> {
     const  { data } = await httpService.get(ENTITY)
-    return data || null
+    return data || []
 }
 
 async function save(raza: Raza): Promise<void> {
