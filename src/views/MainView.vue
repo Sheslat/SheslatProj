@@ -5,8 +5,8 @@
     style="height: 100vh"
   >
     <v-row class="fill-height" align="center" justify="center">
-      <v-col cols="12" md="6" class="text-center">
-        <TableView :serviceName="getServiceName"></TableView>
+      <v-col cols="12" md="6">
+        <TableView></TableView>
       </v-col>
     </v-row>
   </v-container>
@@ -19,7 +19,7 @@ import { watch } from 'vue'
 import { useRoute } from 'vue-router'
 import TableView from './TableView.vue'
 const route = useRoute()
-const { getServiceName, setServiceName, initTable } = useTableStore()
+const { setServiceName, initTable } = useTableStore()
 
 watch(
   () => route.params.module,
