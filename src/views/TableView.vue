@@ -1,5 +1,5 @@
 <template>
-  <div>tablas {{ serviceName }}</div>
+  <div class="pb-5 ps-5 text-h5">{{ serviceName.toUpperCase() }}</div>
 
   <v-data-table :headers="header" :items="data"> </v-data-table>
 </template>
