@@ -7,4 +7,8 @@ export const culturaHeader = [
     title: 'Descripcion',
     key: 'descripcion',
   },
+  {
+    title: 'Acciones',
+    key: 'actions',
+  },
 ]

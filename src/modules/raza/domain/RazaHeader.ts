@@ -7,4 +7,8 @@ export const razaHeader = [
     title: 'Descripcion',
     key: 'descripcion',
   },
+  {
+    title: 'Acciones',
+    key: 'actions',
+  },
 ]

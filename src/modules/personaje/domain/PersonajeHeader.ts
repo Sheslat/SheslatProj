@@ -19,4 +19,8 @@ export const personajeHeader = [
     title: 'Lugar origen',
     key: 'lugarOrigen.nombre',
   },
+  {
+    title: 'Acciones',
+    key: 'actions',
+  },
 ]

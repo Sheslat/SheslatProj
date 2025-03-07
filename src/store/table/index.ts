@@ -99,6 +99,21 @@ export const useTableStore = defineStore('table', {
     setServiceName(serviceName: ServiceName) {
       this.serviceName = serviceName
     },
+    async updateRow(item: any, index: number | null) {
+      const { id } = item
+
+      if (index === null) return
+      this.dataTable[index] = item
+
+      const servicio = this.services[this.serviceName]
+      await servicio.update(id, item)
+    },
+    async createRow(item: any) {
+      const servicio = this.services[this.serviceName]
+      await servicio.save(item)
+      const response = await servicio.getAll()
+      this.dataTable = response
+    },
   },
   getters: {
     getServiceName: state => state.serviceName,

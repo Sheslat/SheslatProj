@@ -11,4 +11,8 @@ export const bestiaHeader = [
     title: 'Pais',
     key: 'pais.nombre',
   },
+  {
+    title: 'Acciones',
+    key: 'actions',
+  },
 ]

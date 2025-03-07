@@ -11,4 +11,8 @@ export const paisHeader = [
     title: 'Cultura',
     key: 'cultura.nombre',
   },
+  {
+    title: 'Acciones',
+    key: 'actions',
+  },
 ]

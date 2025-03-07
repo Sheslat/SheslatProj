@@ -1,10 +1,13 @@
-import axios from 'axios';
+import axios from 'axios'
 
 // Crear una instancia de Axios
 const axiosInstance = axios.create({
   baseURL: 'http://localhost:8080', // Cambia esto por la URL base de tu API
-  timeout: 10000, // Tiempo de espera para las solicitudes
-});
+  timeout: 10000, // Tiempo de espera para las solicitudes,
+  headers: {
+    'Content-Type': 'application/json', // Asegura el encabezado JSON
+  },
+})
 
 // Interceptor de solicitud
 // axiosInstance.interceptors.request.use(
@@ -23,22 +26,22 @@ const axiosInstance = axios.create({
 
 // Interceptor de respuesta
 axiosInstance.interceptors.response.use(
-  (response) => {
+  response => {
     // Manejar respuestas exitosas
-    return response; // Retornar solo los datos
+    return response // Retornar solo los datos
   },
-  (error) => {
+  error => {
     // Manejar errores
     if (error.response) {
       // La solicitud se realizó y el servidor respondió con un código de estado
-      console.error('Error:', error.response.status, error.response.data);
+      console.error('Error:', error.response.status, error.response.data)
     } else {
       // La solicitud se realizó pero no se recibió respuesta
-      console.error('Error de red:', error.message);
+      console.error('Error de red:', error.message)
     }
-    return Promise.reject(error);
-  }
-);
+    return Promise.reject(error)
+  },
+)
 
 // Funciones de utilidad para realizar peticiones
 const httpService = {
@@ -46,6 +49,6 @@ const httpService = {
   post: (url: string, data: object) => axiosInstance.post(url, data),
   put: (url: string, data: object) => axiosInstance.put(url, data),
   delete: (url: string) => axiosInstance.delete(url),
-};
+}
 
-export default httpService;
+export default httpService

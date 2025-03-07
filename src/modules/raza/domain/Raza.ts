@@ -1,5 +1,5 @@
 export interface Raza {
-    id: number
-    nombre: string
-    descripcion: string
+  id?: number
+  nombre: string
+  descripcion: string
 }

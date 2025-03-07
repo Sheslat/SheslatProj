@@ -11,4 +11,8 @@ export const eventoHeader = [
     title: 'Lugar',
     key: 'lugar',
   },
+  {
+    title: 'Acciones',
+    key: 'actions',
+  },
 ]

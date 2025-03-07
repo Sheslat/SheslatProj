@@ -11,4 +11,8 @@ export const lugarHeader = [
     title: 'Pais',
     key: 'pais.nombre',
   },
+  {
+    title: 'Acciones',
+    key: 'actions',
+  },
 ]
