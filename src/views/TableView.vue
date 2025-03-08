@@ -37,7 +37,7 @@
     <v-card>
       <v-card-title class="text-h5"> Edit {{ serviceName }} </v-card-title>
       <v-card-text>
-        <v-form ref="editForm">
+        <v-form v-if="editableFields !== null" ref="editForm">
           <v-text-field
             v-for="(field, key) in editableFields"
             :type="key === 'id' ? 'hidden' : 'text'"
@@ -92,8 +92,34 @@
 </template>
 
 <script lang="ts" setup>
+import { computed } from 'vue'
 import { useTableStore } from '@/store/table'
-import { computed, ref } from 'vue'
+
+import { useAdd } from '@/composables/useAdd'
+import { useDelete } from '@/composables/useDelete'
+import { useEdit } from '@/composables/useEdit'
+// Funciones de añadir
+const {
+  dialogCreate,
+  newItem,
+  openCreateDialog,
+  closeCreateDialog,
+  createNewItem,
+} = useAdd()
+
+// Funciones de edicion
+const {
+  dialogEdit,
+  editableFields,
+  openEditDialog,
+  closeEdit,
+  saveEdit,
+  fieldLabels,
+} = useEdit()
+
+// Funciones de eliminar
+const { dialogDelete, openDeleteDialog, closeDelete, deleteItemConfirm } =
+  useDelete()
 
 // Usamos el store directamente para mantener la reactividad
 const tableStore = useTableStore()
@@ -101,104 +127,7 @@ const tableStore = useTableStore()
 // Desestructuración reactiva de los getters
 const serviceName = computed(() => tableStore.getServiceName)
 const header = computed(() => tableStore.getTableHeaders)
-
 const data = computed(() => tableStore.getDataTable)
-
-//Variables
-const indexToEdit = ref<number | null>(null)
-
-// Edit dialog state
-const dialogEdit = ref(false)
-const editableFields = ref<Record<string, number>>({})
-const originalItem = ref<any>(null) // Store the original item
-
-// Estado del diálogo de creación
-const dialogCreate = ref(false)
-const newItem = ref({ nombre: '', descripcion: '' })
-
-// Generate dynamic labels based on headers
-const fieldLabels = computed(() => {
-  return header.value.reduce((acc: Record<string, string>, item: any) => {
-    acc[item.key] = item.title
-    return acc
-  }, {})
-})
-
-// Abrir el diálogo de creación
-const openCreateDialog = () => {
-  newItem.value = { nombre: '', descripcion: '' } // Reset del formulario
-  dialogCreate.value = true
-}
-
-// Cerrar el diálogo de creación
-const closeCreateDialog = () => {
-  dialogCreate.value = false
-}
-
-// Función para crear un nuevo elemento
-const createNewItem = async () => {
-  // try {
-  //   await tableStore.services[serviceName.value].save(newItem.value) // Llamar al backend
-  //   await tableStore.initTable() // Recargar la tabla
-  //   closeCreateDialog()
-  // } catch (error) {
-  //   console.error('Error al crear el elemento:', error)
-  // }
-  tableStore.createRow(newItem.value)
-  closeCreateDialog()
-}
-
-// Open edit dialog
-const openEditDialog = (item: any, index: number) => {
-  indexToEdit.value = index
-  originalItem.value = item // Store original item reference
-  editableFields.value = { ...item } // Copy data to avoid modifying original until save
-  dialogEdit.value = true
-}
-
-// Close edit dialog
-const closeEdit = () => {
-  dialogEdit.value = false
-  editableFields.value = {}
-  originalItem.value = null
-}
-
-// Save edited item
-const saveEdit = async () => {
-  tableStore.updateRow(editableFields.value, indexToEdit.value)
-  closeEdit()
-}
-
-// Delete dialog state
-const dialogDelete = ref(false)
-const itemToDelete = ref<any>(null)
-
-// Open delete confirmation dialog
-const openDeleteDialog = (item: any) => {
-  itemToDelete.value = item
-  dialogDelete.value = true
-}
-
-// Close delete dialog
-const closeDelete = () => {
-  dialogDelete.value = false
-  itemToDelete.value = null
-}
-
-// Confirm deletion
-const deleteItemConfirm = async () => {
-  if (itemToDelete.value) {
-    console.log('Deleting item:', itemToDelete.value)
-
-    try {
-      await tableStore.services[serviceName.value].remove(itemToDelete.value.id)
-      await tableStore.initTable() // Refresh table after deletion
-    } catch (error) {
-      console.error('Error deleting item:', error)
-    }
-  }
-  closeDelete()
-}
 </script>
 
 <style>
