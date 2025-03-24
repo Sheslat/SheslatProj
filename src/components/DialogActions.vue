@@ -93,7 +93,7 @@
 </template>
 <script lang="ts" setup>
 import type { Bestia } from '@/modules/bestia/domain/Bestia'
-import { defineProps, ref } from 'vue'
+import { defineProps, ref, reactive } from 'vue'
 
 const props = defineProps({
   dialogDelete: Boolean,
@@ -103,8 +103,6 @@ const props = defineProps({
   itemToEdit: Object,
 })
 
-const editableFields = ref<Bestia | null>(null)
+const editableFields = reactive(props.itemToEdit || {})
 const newBestia = ref<Bestia | null>(null)
-
-editableFields.value = props.itemToEdit
 </script>

@@ -31,8 +31,11 @@
 <script lang="ts" setup>
 import DialogActions from '@/components/DialogActions.vue'
 import { useBestiaStore } from '../store'
-import { ref, computed } from 'vue'
+import { ref, computed, reactive } from 'vue'
 import type { Bestia } from '../domain/Bestia'
+import { editableFields } from '../domain/EditableFields';
+import { createPaisRepository } from '@/modules/pais/infrastructure/PaisRepository';
+import type { Pais } from '@/modules/pais/domain/Pais';
 
 const bestiaStore = useBestiaStore()
 const serviceName = computed(() => bestiaStore.getServiceName)
@@ -44,17 +47,26 @@ const openCloseDialogEdit = ref(false)
 const openCloseDialogCreate = ref(false)
 
 const itemToRemove = ref<Bestia | null>(null)
-const itemToEdit = ref<Bestia | null>(null)
+const itemToEdit = reactive(editableFields)
 
 const indexItemToEdit = ref<number | null>(null)
+const paises = ref<Pais[] | []>([])
+
+const paisRepository = createPaisRepository()
 
 const openDeleteDialog = (item: Bestia) => {
   itemToRemove.value = item
   openCloseDialogDelete.value = true
 }
 
-const openEditDialog = (item: Bestia, index: number) => {
-  itemToEdit.value = item
+const openEditDialog = async (item: Bestia, index: number) => {
+  paises.value = await paisRepository.getAll()
+
+  itemToEdit.nombre.value = item.nombre
+  itemToEdit.descripcion.value = item.descripcion
+  itemToEdit.pais.value = item.pais.id
+  itemToEdit.pais.items = paises.value
+
   indexItemToEdit.value = index
   openCloseDialogEdit.value = true
 }
