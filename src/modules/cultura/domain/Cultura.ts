@@ -1,5 +1,5 @@
-export interface Cultura {
-  id?: number
+export type Cultura = {
+  id: number
   nombre: string
   descripcion: string
 }
