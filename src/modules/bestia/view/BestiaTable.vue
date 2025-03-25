@@ -9,84 +9,107 @@
       >
         mdi-pencil
       </v-icon>
-      <v-icon size="small" @click="openDeleteDialog(item)"> mdi-delete </v-icon>
+      <v-icon size="small" @click="openDeleteDialog(item.id)">
+        mdi-delete
+      </v-icon>
     </template>
   </v-data-table>
-  <DialogActions
-    :serviceName="serviceName"
-    :dialogDelete="openCloseDialogDelete"
-    :dialogEdit="openCloseDialogEdit"
-    :dialogCreate="openCloseDialogCreate"
-    :itemToEdit="itemToEdit"
-    @deleteItemConfirm="deleteItem"
-    @saveEdit="saveEdit"
-    @closeDelete="openCloseDialogDelete = false"
-    @closeEdit="openCloseDialogEdit = false"
-    @closeCreate="openCloseDialogCreate = false"
-    @create="create"
-  >
-  </DialogActions>
+
+  <v-dialog v-model="openEditModal" max-width="500px">
+    <v-card title="Editar Bestia">
+      <v-card-text>
+        <FormBestia :nombre="nombre" :descripcion="descripcion" :pais="pais" />
+      </v-card-text>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn
+          color="blue-darken-1"
+          variant="text"
+          @click="openEditModal = false"
+          >Cancel</v-btn
+        >
+        <v-btn color="blue-darken-1" variant="text" @click="updateRow"
+          >Save</v-btn
+        >
+        <v-spacer></v-spacer>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+
+  <!-- Delete Confirmation Dialog -->
+  <v-dialog v-model="dialogDelete" max-width="500px">
+    <v-card>
+      <v-card-title class="text-h5"
+        >Are you sure you want to delete this item?</v-card-title
+      >
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn
+          color="blue-darken-1"
+          variant="text"
+          @click="dialogDelete = false"
+          >Cancel</v-btn
+        >
+        <v-btn color="blue-darken-1" variant="text" @click="deleteRow"
+          >OK</v-btn
+        >
+        <v-spacer></v-spacer>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script lang="ts" setup>
-import DialogActions from '@/components/DialogActions.vue'
+import FormBestia from './FormBestia.vue'
 import { useBestiaStore } from '../store'
-import { ref, computed, reactive } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import type { Bestia } from '../domain/Bestia'
-import { editableFields } from '../domain/EditableFields';
-import { createPaisRepository } from '@/modules/pais/infrastructure/PaisRepository';
-import type { Pais } from '@/modules/pais/domain/Pais';
 
 const bestiaStore = useBestiaStore()
-const serviceName = computed(() => bestiaStore.getServiceName)
+const openEditModal = ref(false)
+const dialogDelete = ref(false)
+const idToDelete = ref(0)
+const indexToUpdate = ref(0)
+
 const data = computed(() => bestiaStore.getDataTable)
 const header = computed(() => bestiaStore.getTableHeaders)
 
-const openCloseDialogDelete = ref(false)
-const openCloseDialogEdit = ref(false)
-const openCloseDialogCreate = ref(false)
+const idToEdit = ref(0)
+const nombre = ref('')
+const descripcion = ref('')
+const pais = ref({})
 
-const itemToRemove = ref<Bestia | null>(null)
-const itemToEdit = reactive(editableFields)
-
-const indexItemToEdit = ref<number | null>(null)
-const paises = ref<Pais[] | []>([])
-
-const paisRepository = createPaisRepository()
-
-const openDeleteDialog = (item: Bestia) => {
-  itemToRemove.value = item
-  openCloseDialogDelete.value = true
+const openEditDialog = (item: Bestia, index: number) => {
+  idToEdit.value = item.id
+  nombre.value = item.nombre
+  descripcion.value = item.descripcion
+  pais.value = item.pais
+  indexToUpdate.value = index
+  openEditModal.value = true
 }
 
-const openEditDialog = async (item: Bestia, index: number) => {
-  paises.value = await paisRepository.getAll()
-
-  itemToEdit.nombre.value = item.nombre
-  itemToEdit.descripcion.value = item.descripcion
-  itemToEdit.pais.value = item.pais.id
-  itemToEdit.pais.items = paises.value
-
-  indexItemToEdit.value = index
-  openCloseDialogEdit.value = true
+const updateRow = () => {
+  const bestia = {
+    id: idToEdit.value,
+    nombre: nombre.value,
+    descripcion: descripcion.value,
+    pais: pais.value,
+  }
+  bestiaStore.updateRow(bestia as Bestia, indexToUpdate.value)
+  openEditModal.value = false
 }
 
-const deleteItem = () => {
-  const { id } = itemToRemove.value as Bestia
-  bestiaStore.removeRow(id)
-  openCloseDialogDelete.value = false
-  itemToRemove.value = null
+const openDeleteDialog = (id: number) => {
+  dialogDelete.value = true
+  idToDelete.value = id
 }
 
-const saveEdit = (item: Bestia) => {
-  bestiaStore.updateRow(item, indexItemToEdit.value)
-  openCloseDialogEdit.value = false
-  itemToEdit.value = null
-  indexItemToEdit.value = null
+const deleteRow = () => {
+  bestiaStore.removeRow(idToDelete.value)
+  dialogDelete.value = false
 }
 
-const create = (item: Bestia) => {
-  bestiaStore.createRow(item)
-  openCloseDialogCreate.value = false
-}
+onMounted(() => {
+  bestiaStore.initTable()
+})
 </script>
