@@ -19,6 +19,7 @@
     </v-card-text>
   </v-card>
 
+  <!-- Edit Dialog -->
   <v-dialog v-model="openEditModal" max-width="500px">
     <v-card title="Editar Bestia">
       <v-card-text>
