@@ -1,19 +1,23 @@
 <template>
-  <div class="pb-5 ps-5 text-h5">Bestia</div>
-  <v-data-table :headers="header" :items="data">
-    <template v-slot:item.actions="{ item }">
-      <v-icon
-        class="me-2"
-        size="small"
-        @click="openEditDialog(item, data.indexOf(item))"
-      >
-        mdi-pencil
-      </v-icon>
-      <v-icon size="small" @click="openDeleteDialog(item.id)">
-        mdi-delete
-      </v-icon>
-    </template>
-  </v-data-table>
+  <v-card class="elevation-12">
+    <v-card-title>Bestia</v-card-title>
+    <v-card-text>
+      <v-data-table :headers="header" :items="data">
+        <template v-slot:item.actions="{ item }">
+          <v-icon
+            class="me-2"
+            size="small"
+            @click="openEditDialog(item, data.indexOf(item))"
+          >
+            mdi-pencil
+          </v-icon>
+          <v-icon size="small" @click="openDeleteDialog(item.id)">
+            mdi-delete
+          </v-icon>
+        </template>
+      </v-data-table>
+    </v-card-text>
+  </v-card>
 
   <v-dialog v-model="openEditModal" max-width="500px">
     <v-card title="Editar Bestia">

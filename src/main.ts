@@ -23,9 +23,6 @@ const vuetify = createVuetify({
       mdi,
     },
   },
-  theme: {
-    defaultTheme: 'dark'
-  }
 })
 
 app.use(createPinia())

@@ -1,13 +1,30 @@
-<script lang="ts" setup></script>
+<script lang="ts" setup>
+import { ref } from 'vue'
+const drawer = ref(true)
+const rail = ref(false)
+</script>
 <template>
   <v-card>
     <v-layout>
-      <v-navigation-drawer expand-on-hover rail>
+      <v-navigation-drawer
+        v-model="drawer"
+        :rail="rail"
+        permanent
+        @click="rail = false"
+      >
         <v-list>
           <v-list-item
-            prepend-avatar="https://randomuser.me/api/portraits/women/85.jpg"
+            prepend-avatar="/assets/master.gif"
             title="Base datos rol"
-          ></v-list-item>
+          >
+            <template v-slot:append>
+              <v-btn
+                icon="mdi-chevron-left"
+                variant="text"
+                @click.stop="rail = !rail"
+              ></v-btn>
+            </template>
+          </v-list-item>
         </v-list>
         <v-divider></v-divider>
         <v-list density="compact" nav>
@@ -43,6 +60,7 @@
           </v-list-item>
         </v-list>
       </v-navigation-drawer>
+      <v-main><slot></slot></v-main>
     </v-layout>
   </v-card>
 </template>
