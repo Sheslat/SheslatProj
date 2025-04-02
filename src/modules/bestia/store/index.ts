@@ -15,18 +15,24 @@ export const useBestiaStore = defineStore('table', {
       const response = await this.repository.getAll()
       this.dataTable = response
     },
-    async updateRow(item: Bestia, index: number | null) {
-      if (index === null || !item.id) return
+    async updateRow(
+      item: Omit<Bestia, 'pais'> & { pais: string },
+      index: number | null,
+    ) {
+      if (index === null || !item.documentId) return
 
-      const { id } = item
-      this.dataTable[index] = item
-      await this.repository.update(id, item)
+      const { documentId, ...itemProps } = item
+      await this.repository.update(documentId, itemProps)
+
+      this.initTable()
     },
-    async createRow(item: Bestia) {
+    async createRow(
+      item: Omit<Bestia, 'pais' | 'documentId'> & { pais: string },
+    ) {
       await this.repository.save(item)
       this.initTable()
     },
-    async removeRow(id: number) {
+    async removeRow(id: string) {
       await this.repository.remove(id)
       this.initTable()
     },

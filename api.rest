@@ -1,0 +1,20 @@
+### Get All
+http://localhost:1337/api/bestias?populate[0]=pais
+
+### Get All paises
+http://localhost:1337/api/paises
+
+### Get One
+http://localhost:1337/api/bestias/xk4b49s3z91bjyz8rk2693h8?populate[0]=pais
+
+### Update (PUT)
+PUT http://localhost:1337/api/bestias/zvmjlx7g0lqabbwutefkvk5p
+Content-Type: application/json
+
+{
+  "data": {
+    "nombre": "test actualizado",
+    "descripcion": "descripcion actualizada",
+    "pais": "ah19h74lm0taf7xwd33t13iv"
+  }
+}

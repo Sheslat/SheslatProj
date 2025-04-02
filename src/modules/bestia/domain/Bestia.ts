@@ -1,7 +1,7 @@
 import type { Pais } from '@/modules/pais/domain/Pais'
 
 export type Bestia = {
-  id: number
+  documentId: string
   nombre: string
   descripcion: string
   pais: Pais
